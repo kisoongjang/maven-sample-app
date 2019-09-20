@@ -1,11 +1,10 @@
 
 pipeline {
     agent {
-        label "master"
-    }
-    tools {
-        // Note: this should match with the tool name configured in your jenkins instance (JENKINS_URL/configureTools/)
-        maven "M3"
+        docker {
+            image 'maven:3-alpine'
+            args '-v $HOME/.m2:/root/.m2'
+        }
     }
     environment {
         // This can be nexus3 or nexus2
@@ -33,9 +32,9 @@ pipeline {
                 // }
                 script {
                     sh "mvn sonar:sonar \
-                          -Dsonar.projectKey=maven-sample-app \
+                          -Dsonar.projectKey=maven-sample \
                           -Dsonar.host.url=http://169.56.94.238:9000 \
-                          -Dsonar.login=2ef0b970c99043f1975afc59e0061b1337719f78"
+                          -Dsonar.login=ab7b7953ba9bfdd8c93dc960c4988be84e6dd314"
                 }
             }
         }
